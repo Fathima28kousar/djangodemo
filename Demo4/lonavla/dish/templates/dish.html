@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Dish{% endblock title %}
+{% block content %}
+
+{% comment %} {{request.user}}
+{{request.user.first_name}}  {% endcomment %}
+
+
+<div class="container mt-5">
+    <form class="col-6 card mx-auto shadow-lg p-3" method="POST" enctype="multipart/form-data">
+        <h2>Add dish</h2>
+        <hr>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Dish Name</label>
+            <input type="text" name="dish_name" class="form-control" required/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dish description</label>
+            <textarea name="dish_description" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dish image</label>
+            <input type="file" name="dish_image" class="form-control"/>
+        </div>
+        <button class="btn btn-success">Add the Dish</button>
+    </form>
+    <hr>
+    <div class="mx-auto col-6">
+        <form>
+            <label class="form-label">Search</label>
+            <input type="text" name="search" class="form-control mb-2"/>
+            <button type="submit" class="btn btn-primary mb-5">Search</button>
+        </form>
+    </div>
+    <hr>
+
+    <table class='table table-bordered'>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Dish name</th>
+                <th scope="col">Dish description</th>
+                <th scope="col">Dish image</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dis in dish %}
+            <tr>
+                <td scope="row">{{forloop.counter}}</td>
+                <td>{{dis.dish_name}}</td>
+                <td>{{dis.dish_description}}</td>
+                <td><img src="/media/{{dis.dish_image}}"  style="height: 100px"/></td>
+                
+                <td>
+                    <a href="/delete/{{dis.id}}/" class="btn btn-danger mb-2">Delete</a><br>
+                    <a href="/update/{{dis.id}}/" class="btn btn-success">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock content %}
